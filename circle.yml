@@ -1,0 +1,6 @@
+dependencies:
+  pre:
+    - npm install -g istanbul istanbul-coveralls
+test:
+  post:
+    - istanbul-coveralls
