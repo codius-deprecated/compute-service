@@ -9,7 +9,9 @@
   },
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1.16",
     "bluebird": "^2.9.12",
-    "aws-sdk": "^2.1.16"
+    "dotenv": "^0.5.1",
+    "nconf": "^0.7.1"
   }
 }
