@@ -1,0 +1,18 @@
+web:
+  build: .
+  command: node server.js
+  volumes:
+    - .:/usr/src/app
+  links:
+    - worker
+  ports:
+    - "8000:8000"
+worker:
+  build: .
+  command: npm run worker
+  volumes:
+    - .:/usr/src/app
+  links:
+    - beanstalkd
+beanstalkd:
+  image: kdihalas/beanstalkd
