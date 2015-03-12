@@ -17,12 +17,13 @@
 */
 //==============================================================================
 
-var BridgesApplication = require('bridges-application');
-var compute            = require(__dirname+'/lib');
+module.exports = function(compute) {
 
-new BridgesApplication({
-  directory: __dirname,
-  processes: {
-    inject: [compute]
-  }
-}).supervisor.start();
+  var server = require(__dirname+'/../lib/server')(compute)
+  var port   = (parseInt(process.env.PORT) || 5000)
+
+  server.listen(port, function() {
+    compute.logger.info('Compute Service listening on port', port)
+  })
+
+}
