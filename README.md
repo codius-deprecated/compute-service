@@ -15,5 +15,20 @@ to be loaded by dotenv:
 
 ```
 npm install
-node server
+docker-compose up
 ```
+
+This spins up the following:
+
+* A kdihalas/beanstalkd container
+* A worker container that executes `npm run worker`
+* A web container with ```node server.js```
+
+## Job Processing
+
+compute-service contains a worker that can read jobs from a beanstalkd queue and
+spin up instances. To configure, set the variable BEANSTALK_SERVER. The default
+value is  ```127.0.0.1:11300```. To run:
+
+```shell
+$ ./node_modules/beanstalk_worker/bin/
