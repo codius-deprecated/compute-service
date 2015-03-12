@@ -4,7 +4,7 @@
   "description": "Codius host compute service",
   "main": "server.js",
   "scripts": {
-    "test": "istanbul cover _mocha test/*.js"
+    "test": "istanbul cover _mocha test/*.js test/http/*.js"
   },
   "repository": {
     "type": "git",
@@ -14,10 +14,15 @@
   "dependencies": {
     "aws-sdk": "^2.1.16",
     "bluebird": "^2.9.12",
+    "bridges-application": "^0.2.1",
+    "bridges-express": "^0.3.1",
     "dotenv": "^0.5.1",
-    "nconf": "^0.7.1"
+    "nconf": "^0.7.1",
+    "winston": "^0.7.3"
   },
   "devDependencies": {
-    "mocha": "^2.2.1"
+    "istanbul": "~0.2.16",
+    "mocha": "^2.2.1",
+    "supertest-as-promised": "^1.0.0"
   }
 }
