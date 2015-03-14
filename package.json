@@ -23,6 +23,7 @@
   "devDependencies": {
     "istanbul": "~0.2.16",
     "mocha": "^2.2.1",
-    "supertest-as-promised": "^1.0.0"
+    "supertest-as-promised": "^1.0.0",
+    "uuid": "^2.0.1"
   }
 }

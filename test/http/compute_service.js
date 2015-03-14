@@ -8,41 +8,58 @@ var compute    = require(path.join(__dirname, '/../../lib'))
 var ec2        = require(path.join(__dirname, '/../../lib/aws')).ec2;
 var Server     = require(path.join(__dirname, '/../../lib/server'));
 var supertest  = require('supertest-as-promised')
+var uuid       = require('uuid')
 
 describe('Compute Service HTTP Interface', function() {
-  var http, server;
+  var http, server, token, rippled_commit_hash;
+
+  before(function() {
+    rippled_commit_hash = 'fc8bf39043b13505813a25e6aac1441a96dfe023';
+  });
 
   beforeEach(function() {
     server = Server(compute);
     http = supertest(server);
+    token = uuid.v4();
   });
 
-  it('should start a new running instance', function(done) {
+  afterEach(function(done) {
+    // Retrieve and terminate the instance
+    var params = {
+      Filters: [{
+        Name: 'tag:token',
+        Values: [ token ]
+      }]
+    };
+    return ec2.describeInstancesAsync(params).then(function(data) {
+      var params = {
+        InstanceIds: [
+          data.Reservations[0].Instances[0].InstanceId
+        ]
+      };
+      return ec2.terminateInstancesAsync(params).then(function() {
+        done();
+      });
+    });
+  })
+
+  it('should start a new running instance', function() {
     return http
       .post('/instances')
       .send({
-        // token:
-        // container_uri: 
+        token: token,
+        container_uri: rippled_commit_hash
         // type: 
-        vars: 'rippled_version: fc8bf39043b13505813a25e6aac1441a96dfe023'
+        // vars:
         // port: 
       })
       .expect(200)
       .then(function(response) {
         assert(response.body.instance)
+        assert.strictEqual(response.body.instance.token, token);
         assert(response.body.instance.ip_address);
-        assert(response.body.instance.container_uri);
+        assert.strictEqual(response.body.instance.container_uri, rippled_commit_hash);
         assert.strictEqual(response.body.instance.state, 'pending');
-
-        // Terminate the instance
-        var params = {
-          InstanceIds: [
-            response.body.instance.container_uri
-          ]
-        };
-        return ec2.terminateInstancesAsync(params).then(function() {
-          done();
-        });
       });
   });
 });
