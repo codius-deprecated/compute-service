@@ -13,17 +13,21 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1.16",
+    "beanstalk_worker": "^0.2.1",
     "bluebird": "^2.9.12",
     "bridges-application": "^0.2.1",
     "bridges-express": "^0.3.1",
     "dotenv": "^0.5.1",
     "nconf": "^0.7.1",
     "winston": "^0.7.3"
+    "nodestalker": "^0.1.17",
   },
   "devDependencies": {
     "istanbul": "~0.2.16",
     "mocha": "^2.2.1",
     "supertest-as-promised": "^1.0.0",
-    "uuid": "^2.0.1"
+    "uuid": "^2.0.1",
+    "chai": "^2.1.1",
+    "sinon": "^1.13.0"
   }
 }
